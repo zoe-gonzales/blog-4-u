@@ -16,6 +16,11 @@ const Textarea = styled.textarea`
   ${textAreaStyles}
 `;
 
+const Input = styled.input`
+  ${textAreaStyles}
+  width: 75%;
+`;
+
 const BackLink = styled.a`
   ${linkStyles}
   margin-left: 1rem
@@ -45,7 +50,7 @@ const DraftSpace: React.FC = () => {
       <div>
         <form onSubmit={submitData}>
           <h1>New Space</h1>
-          <input
+          <Input
             autoFocus
             onChange={(e) => setTitle(e.target.value)}
             placeholder="What is the name of your space?"
@@ -55,7 +60,7 @@ const DraftSpace: React.FC = () => {
           <Textarea
             cols={50}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Make this short enough so that people will read it, but long enough to give a good ideas of the topics covered in this space."
+            placeholder="Make this short enough so that people will read it, but long enough to give a good idea of the topics covered in this space."
             rows={8}
             value={description}
           />

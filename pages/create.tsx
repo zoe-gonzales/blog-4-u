@@ -14,6 +14,16 @@ const Textarea = styled.textarea`
   ${textAreaStyles}
 `;
 
+const Input = styled.input`
+  ${textAreaStyles}
+  width: 75%;
+`;
+
+const Select = styled.select`
+  ${textAreaStyles}
+  width: 75%;
+`;
+
 const BackLink = styled.a`
   ${linkStyles}
   margin-left: 1rem
@@ -57,13 +67,13 @@ const Draft: React.FC<Props> = (props) => {
           <h1>New Draft</h1>
           <label htmlFor="space">Which space do you want to post in?</label>
           <br />
-          <select name="space" id="space">
+          <Select name="space" id="space">
             {props.spaces.map((space) => (
               <option value={space.id}>{space.title}</option>
             ))}
-          </select>
+          </Select>
           <br />
-          <input
+          <Input
             autoFocus
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Title"
