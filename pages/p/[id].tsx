@@ -6,9 +6,16 @@ import Layout from "../../components/Layout";
 import { PostProps } from "../../components/Post";
 import { useSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
+import styled from "styled-components";
+
+const Comment = styled.article`
+  background-color: white;
+  padding: 15px 20px;
+  margin: 20px;
+`;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const post = await prisma.post.findUnique({
+  const postData = await prisma.post.findUnique({
     where: {
       id: String(params?.id),
     },
@@ -16,8 +23,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       author: {
         select: { name: true, email: true },
       },
+      comments: {
+        select: { id: true, content: true, author: true },
+      },
     },
   });
+  const post = JSON.parse(JSON.stringify(postData));
   return {
     props: post,
   };
@@ -52,7 +63,7 @@ const Post: React.FC<PostProps> = (props) => {
 
   return (
     <Layout>
-      <div>
+      <section>
         <h2>{title}</h2>
         <p>By {props?.author?.name || "Unknown author"}</p>
         <ReactMarkdown children={props.content} />
@@ -62,7 +73,17 @@ const Post: React.FC<PostProps> = (props) => {
         {userHasValidSession && postBelongsToUser && (
           <button onClick={() => deletePost(props.id)}>Delete</button>
         )}
-      </div>
+      </section>
+      <section>
+        <hr />
+        <h2>Comments</h2>
+        {props.comments.map((comment: any) => (
+          <Comment key={comment.id}>
+            <p>{comment.content}</p>
+            <small>by {comment.author.name}</small>
+          </Comment>
+        ))}
+      </section>
       <style jsx>{`
         .page {
           background: var(--geist-background);
