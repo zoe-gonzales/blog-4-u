@@ -7,11 +7,22 @@ import { PostProps } from "../../components/Post";
 import { useSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
 import styled from "styled-components";
+import { buttonStyles } from "../../components/styled";
 
 const Comment = styled.article`
-  background-color: white;
+  background-color: #90adc6;
   padding: 15px 20px;
   margin: 20px;
+`;
+
+const Button = styled.button`
+  ${buttonStyles}
+  margin-right: 8px;
+`;
+
+const SubmitButton = styled.input`
+  ${buttonStyles}
+  margin-top: 8px;
 `;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -85,10 +96,10 @@ const Post: React.FC<PostProps> = (props) => {
         <p>By {props?.author?.name || "Unknown author"}</p>
         <ReactMarkdown children={props.content} />
         {!props.published && userHasValidSession && postBelongsToUser && (
-          <button onClick={() => publishPost(props.id)}>Publish</button>
+          <Button onClick={() => publishPost(props.id)}>Publish</Button>
         )}
         {userHasValidSession && postBelongsToUser && (
-          <button onClick={() => deletePost(props.id)}>Delete</button>
+          <Button onClick={() => deletePost(props.id)}>Delete</Button>
         )}
       </section>
       <section>
@@ -109,29 +120,9 @@ const Post: React.FC<PostProps> = (props) => {
           rows={8}
           value={content}
         />
-        <input disabled={!content} type="submit" value="Comment" />
+        <br />
+        <SubmitButton disabled={!content} type="submit" value="Comment" />
       </form>
-      <style jsx>{`
-        .page {
-          background: var(--geist-background);
-          padding: 2rem;
-        }
-
-        .actions {
-          margin-top: 2rem;
-        }
-
-        button {
-          background: #ececec;
-          border: 0;
-          border-radius: 0.125rem;
-          padding: 1rem 2rem;
-        }
-
-        button + button {
-          margin-left: 1rem;
-        }
-      `}</style>
     </Layout>
   );
 };

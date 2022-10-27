@@ -3,6 +3,56 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
+import styled from "styled-components";
+import { linkStyles, textColor } from "./styled";
+
+const Nav = styled.nav`
+  display: flex;
+  padding: 2rem;
+  align-items: center;
+`;
+
+const StyledLink = styled.a`
+  ${linkStyles}
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+
+  .bold {
+    font-weight: bold;
+  }
+
+  & + & {
+    margin-left: 1rem;
+  }
+`;
+
+const UserDetails = styled.p`
+  display: inline-block;
+  font-size: 13px;
+  padding-right: 1rem;
+`;
+
+const RightNav = styled.div`
+  margin-left: auto;
+
+  a {
+    border: 1px solid var(--geist-foreground);
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+  }
+
+  button {
+    border: none;
+  }
+`;
+
+const LeftNav = styled.div`
+  a[data-active="true"] {
+    color: ${textColor};
+    font-weight: 800;
+  }
+`;
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -12,200 +62,79 @@ const Header: React.FC = () => {
   const { data: session, status } = useSession();
 
   let left = (
-    <div className="left">
+    <LeftNav>
       <Link href="/">
-        <a className="bold" data-active={isActive("/")}>
+        <StyledLink className="bold" data-active={isActive("/")}>
           Feed
-        </a>
+        </StyledLink>
       </Link>
-      <style jsx>{`
-        .bold {
-          font-weight: bold;
-        }
-
-        a {
-          text-decoration: none;
-          color: var(--geist-foreground);
-          display: inline-block;
-        }
-
-        .left a[data-active="true"] {
-          color: gray;
-        }
-
-        a + a {
-          margin-left: 1rem;
-        }
-      `}</style>
-    </div>
+    </LeftNav>
   );
 
   let right = null;
 
   if (status === "loading") {
     left = (
-      <div className="left">
+      <LeftNav>
         <Link href="/">
-          <a className="bold" data-active={isActive("/")}>
+          <StyledLink className="bold" data-active={isActive("/")}>
             Feed
-          </a>
+          </StyledLink>
         </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          .left a[data-active="true"] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
-      </div>
+      </LeftNav>
     );
     right = (
-      <div className="right">
+      <RightNav>
         <p>Validating session ...</p>
-        <style jsx>{`
-          .right {
-            margin-left: auto;
-          }
-        `}</style>
-      </div>
+      </RightNav>
     );
   }
 
   if (!session) {
     right = (
-      <div className="right">
+      <RightNav>
         <Link href="/api/auth/signin">
-          <a data-active={isActive("/signup")}>Log in</a>
+          <StyledLink data-active={isActive("/signup")}>Log in</StyledLink>
         </Link>
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid var(--geist-foreground);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-        `}</style>
-      </div>
+      </RightNav>
     );
   }
 
   if (session) {
     left = (
-      <div className="left">
+      <LeftNav>
         <Link href="/">
-          <a className="bold" data-active={isActive("/")}>
+          <StyledLink className="bold" data-active={isActive("/")}>
             Feed
-          </a>
+          </StyledLink>
         </Link>
         <Link href="/drafts">
-          <a data-active={isActive("/drafts")}>My drafts</a>
+          <StyledLink data-active={isActive("/drafts")}>My drafts</StyledLink>
         </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          .left a[data-active="true"] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
-      </div>
+      </LeftNav>
     );
     right = (
-      <div className="right">
-        <p>
+      <RightNav>
+        <UserDetails>
           {session.user.name} ({session.user.email})
-        </p>
+        </UserDetails>
         <Link href="/create">
           <button>
-            <a>New post</a>
+            <StyledLink>New post</StyledLink>
           </button>
         </Link>
         <button onClick={() => signOut()}>
-          <a>Log out</a>
+          <StyledLink>Log out</StyledLink>
         </button>
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          p {
-            display: inline-block;
-            font-size: 13px;
-            padding-right: 1rem;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid var(--geist-foreground);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-
-          button {
-            border: none;
-          }
-        `}</style>
-      </div>
+      </RightNav>
     );
   }
 
   return (
-    <nav>
+    <Nav>
       {left}
       {right}
-      <style jsx>{`
-        nav {
-          display: flex;
-          padding: 2rem;
-          align-items: center;
-        }
-      `}</style>
-    </nav>
+    </Nav>
   );
 };
 

@@ -1,8 +1,21 @@
-// pages/create.tsx
-
 import React, { useState } from "react";
 import Layout from "../components/Layout";
 import Router from "next/router";
+import styled from "styled-components";
+import { buttonStyles, textAreaStyles, linkStyles } from "../components/styled";
+
+const Button = styled.input`
+  ${buttonStyles}
+`;
+
+const Textarea = styled.textarea`
+  ${textAreaStyles}
+`;
+
+const BackLink = styled.a`
+  ${linkStyles}
+  margin-left: 1rem
+`;
 
 const Draft: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -35,47 +48,19 @@ const Draft: React.FC = () => {
             type="text"
             value={title}
           />
-          <textarea
+          <Textarea
             cols={50}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Content"
             rows={8}
             value={content}
           />
-          <input disabled={!content || !title} type="submit" value="Create" />
-          <a className="back" href="#" onClick={() => Router.push("/")}>
+          <Button disabled={!content || !title} type="submit" value="Create" />
+          <BackLink className="back" href="#" onClick={() => Router.push("/")}>
             or Cancel
-          </a>
+          </BackLink>
         </form>
       </div>
-      <style jsx>{`
-        .page {
-          background: var(--geist-background);
-          padding: 3rem;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        input[type="text"],
-        textarea {
-          width: 100%;
-          padding: 0.5rem;
-          margin: 0.5rem 0;
-          border-radius: 0.25rem;
-          border: 0.125rem solid rgba(0, 0, 0, 0.2);
-        }
-
-        input[type="submit"] {
-          background: #ececec;
-          border: 0;
-          padding: 1rem 2rem;
-        }
-
-        .back {
-          margin-left: 1rem;
-        }
-      `}</style>
     </Layout>
   );
 };

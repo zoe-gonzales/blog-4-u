@@ -1,14 +1,19 @@
 import React, { ReactNode } from "react";
 import Header from "./Header";
+import styled from "styled-components";
 
 type Props = {
   children: ReactNode;
 };
 
+const StyledLayout = styled.div`
+  padding: 0 2rem;
+`;
+
 const Layout: React.FC<Props> = (props) => (
   <div>
     <Header />
-    <div className="layout">{props.children}</div>
+    <StyledLayout>{props.children}</StyledLayout>
     <style jsx global>{`
       html {
         box-sizing: border-box;
@@ -27,21 +32,7 @@ const Layout: React.FC<Props> = (props) => (
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
           "Segoe UI Symbol";
-        background: rgba(0, 0, 0, 0.05);
-      }
-
-      input,
-      textarea {
-        font-size: 16px;
-      }
-
-      button {
-        cursor: pointer;
-      }
-    `}</style>
-    <style jsx>{`
-      .layout {
-        padding: 0 2rem;
+        background: #e9eaec;
       }
     `}</style>
   </div>

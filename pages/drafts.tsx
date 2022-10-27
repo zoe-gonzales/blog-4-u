@@ -4,6 +4,16 @@ import { useSession, getSession } from "next-auth/react";
 import Layout from "../components/Layout";
 import Post, { PostProps } from "../components/Post";
 import prisma from "../lib/prisma";
+import styled from "styled-components";
+import { postStyles, pageStyles } from "../components/styled";
+
+const PostWrapper = styled.article`
+  ${postStyles}
+`;
+
+const Page = styled.div`
+  ${pageStyles}
+`;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession({ req });
@@ -46,30 +56,16 @@ const Drafts: React.FC<Props> = (props) => {
 
   return (
     <Layout>
-      <div className="page">
+      <Page>
         <h1>My Drafts</h1>
         <main>
           {props.drafts.map((post) => (
-            <div key={post.id} className="post">
+            <PostWrapper key={post.id}>
               <Post post={post} />
-            </div>
+            </PostWrapper>
           ))}
         </main>
-      </div>
-      <style jsx>{`
-        .post {
-          background: var(--geist-background);
-          transition: box-shadow 0.1s ease-in;
-        }
-
-        .post:hover {
-          box-shadow: 1px 1px 3px #aaa;
-        }
-
-        .post + .post {
-          margin-top: 2rem;
-        }
-      `}</style>
+      </Page>
     </Layout>
   );
 };
