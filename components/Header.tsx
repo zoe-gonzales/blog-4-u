@@ -1,4 +1,3 @@
-// Header.tsx
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -110,6 +109,9 @@ const Header: React.FC = () => {
         </Link>
         <Link href="/drafts">
           <StyledLink data-active={isActive("/drafts")}>My drafts</StyledLink>
+        </Link>
+        <Link href="/s">
+          <StyledLink data-active={isActive("/s")}>Browse spaces</StyledLink>
         </Link>
       </LeftNav>
     );
