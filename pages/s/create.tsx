@@ -70,7 +70,7 @@ const DraftSpace: React.FC = () => {
             type="submit"
             value="Create"
           />
-          <BackLink className="back" href="#" onClick={() => Router.push("/")}>
+          <BackLink className="back" href="#" onClick={() => Router.push("/s")}>
             or Cancel
           </BackLink>
         </form>
