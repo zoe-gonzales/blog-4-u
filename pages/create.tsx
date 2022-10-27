@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { GetStaticProps } from "next";
+import Link from "next/link";
 import Layout from "../components/Layout";
 import Router from "next/router";
 import styled from "styled-components";
@@ -27,6 +28,10 @@ const Select = styled.select`
 const BackLink = styled.a`
   ${linkStyles}
   margin-left: 1rem
+`;
+
+const HelpText = styled.small`
+  margin: 0 6px;
 `;
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -65,13 +70,19 @@ const Draft: React.FC<Props> = (props) => {
       <div>
         <form onSubmit={submitData}>
           <h1>New Draft</h1>
+          <p>This form supports markdown 😊</p>
           <label htmlFor="space">Which space do you want to post in?</label>
+          <HelpText>
+            Not seeing the space you're looking for? Make a{" "}
+            <Link href="/s/create">new one here</Link>.
+          </HelpText>
           <br />
           <Select name="space" id="space">
             {props.spaces.map((space) => (
               <option value={space.id}>{space.title}</option>
             ))}
           </Select>
+
           <br />
           <Input
             autoFocus

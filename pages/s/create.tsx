@@ -50,6 +50,7 @@ const DraftSpace: React.FC = () => {
       <div>
         <form onSubmit={submitData}>
           <h1>New Space</h1>
+          <p>This form supports markdown 😊</p>
           <Input
             autoFocus
             onChange={(e) => setTitle(e.target.value)}
