@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { GetStaticProps } from "next";
 import Layout from "../components/Layout";
 import Router from "next/router";
 import styled from "styled-components";
+import prisma from "../lib/prisma";
 import { buttonStyles, textAreaStyles, linkStyles } from "../components/styled";
 
 const Button = styled.input`
@@ -17,14 +19,26 @@ const BackLink = styled.a`
   margin-left: 1rem
 `;
 
-const Draft: React.FC = () => {
+export const getStaticProps: GetStaticProps = async () => {
+  const spaces = await prisma.space.findMany();
+  return {
+    props: { spaces },
+  };
+};
+
+interface Props {
+  spaces: any[];
+}
+
+const Draft: React.FC<Props> = (props) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const body = { title, content };
+      const spaceId = e.target[0].value;
+      const body = { title, content, spaceId };
       await fetch("/api/post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,6 +55,14 @@ const Draft: React.FC = () => {
       <div>
         <form onSubmit={submitData}>
           <h1>New Draft</h1>
+          <label htmlFor="space">Which space do you want to post in?</label>
+          <br />
+          <select name="space" id="space">
+            {props.spaces.map((space) => (
+              <option value={space.id}>{space.title}</option>
+            ))}
+          </select>
+          <br />
           <input
             autoFocus
             onChange={(e) => setTitle(e.target.value)}
