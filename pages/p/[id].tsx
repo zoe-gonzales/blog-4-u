@@ -7,10 +7,10 @@ import { PostProps } from "../../components/Post";
 import { useSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
 import styled from "styled-components";
-import { buttonStyles } from "../../components/styled";
+import { buttonStyles, accentColorTwo } from "../../components/styled";
 
 const Comment = styled.article`
-  background-color: #90adc6;
+  border: 6px solid ${accentColorTwo};
   padding: 15px 20px;
   margin: 20px;
 `;

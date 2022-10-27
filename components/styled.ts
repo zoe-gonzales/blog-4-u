@@ -4,7 +4,7 @@ import { css } from "styled-components";
 const textColor = "#333652";
 const accentColor = "#FAD02C";
 const backgroundColor = "#E9EAEC";
-// const accentColorTwo = "#90ADC6";
+const accentColorTwo = "#90ADC6";
 
 const buttonStyles = css`
   background: ${accentColor};
@@ -64,4 +64,5 @@ export {
   pageStyles,
   textColor,
   backgroundColor,
+  accentColorTwo,
 };
