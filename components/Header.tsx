@@ -113,6 +113,9 @@ const Header: React.FC = () => {
         <Link href="/s">
           <StyledLink data-active={isActive("/s")}>Browse spaces</StyledLink>
         </Link>
+        <Link href="/s/create">
+          <StyledLink data-active={isActive("/s/create")}>New space</StyledLink>
+        </Link>
       </LeftNav>
     );
     right = (
