@@ -5,13 +5,20 @@ import Post, { PostProps } from "../components/Post";
 import prisma from "../lib/prisma";
 import styled from "styled-components";
 import { pageStyles, postStyles } from "../components/styled";
+import { UpvoteButtonGroup } from "../components/UpvoteButtonGroup";
 
 const PostWrapper = styled.article`
   ${postStyles}
+  flex-shrink: 0;
+  flex-grow: 1;
 `;
 
 const Page = styled.article`
   ${pageStyles}
+`;
+
+const FlexSection = styled.section`
+  display: flex;
 `;
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -40,9 +47,12 @@ const Blog: React.FC<Props> = (props) => {
         <h1>Public Feed</h1>
         <main>
           {props.feed.map((post) => (
-            <PostWrapper key={post.id}>
-              <Post post={post} />
-            </PostWrapper>
+            <FlexSection>
+              <UpvoteButtonGroup />
+              <PostWrapper key={post.id}>
+                <Post post={post} />
+              </PostWrapper>
+            </FlexSection>
           ))}
         </main>
       </Page>
