@@ -50,6 +50,7 @@ async function deletePost(id: string): Promise<void> {
 
 const Post: React.FC<PostProps> = (props) => {
   const { data: session, status } = useSession();
+  const [content, setContent] = React.useState("");
   if (status === "loading") {
     return <div>Authenticating ...</div>;
   }
@@ -60,6 +61,22 @@ const Post: React.FC<PostProps> = (props) => {
   if (!props.published) {
     title = `${title} (Draft)`;
   }
+
+  const submitData = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      const body = { content, postId: props.id };
+      await fetch("/api/comment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      await Router.push(`/p/${props.id}`);
+      setContent("");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Layout>
@@ -84,6 +101,16 @@ const Post: React.FC<PostProps> = (props) => {
           </Comment>
         ))}
       </section>
+      <form onSubmit={submitData}>
+        <h2>Leave a comment</h2>
+        <textarea
+          cols={50}
+          onChange={(e) => setContent(e.target.value)}
+          rows={8}
+          value={content}
+        />
+        <input disabled={!content} type="submit" value="Comment" />
+      </form>
       <style jsx>{`
         .page {
           background: var(--geist-background);
