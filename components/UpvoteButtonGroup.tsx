@@ -22,11 +22,12 @@ const FlexItem = styled.p`
 type ClickType = "increment" | "decrement";
 
 const handleClick = async (postId: string, type: ClickType): Promise<any> => {
-  const res = await fetch(`/api/post/${postId}?type=${type}`, {
+  return await fetch(`/api/post/${postId}?type=${type}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-  });
-  return res;
+  })
+    .then((res) => res.json())
+    .then((post) => post);
 };
 
 const UpvoteButtonGroup = (props) => {
@@ -34,11 +35,11 @@ const UpvoteButtonGroup = (props) => {
   const [count, setCount] = useState(upvoteCount);
   const incrementCount = async () => {
     const post = await handleClick(postId, "increment");
-    // setCount(post.upvoteCount);
+    setCount(post.upvoteCount);
   };
   const decrementCount = async () => {
     const post = await handleClick(postId, "decrement");
-    // setCount(post.upvoteCount);
+    setCount(post.upvoteCount);
   };
 
   return (
