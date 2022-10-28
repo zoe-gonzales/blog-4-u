@@ -23,6 +23,12 @@ const Button = styled.button`
   margin-right: 8px;
 `;
 
+const SmallButton = styled.button`
+  ${buttonStyles}
+  padding: 7px 14px;
+  margin-top: 12px;
+`;
+
 const SubmitButton = styled.input`
   ${buttonStyles}
   margin-top: 8px;
@@ -83,6 +89,13 @@ async function deletePost(id: string): Promise<void> {
     method: "DELETE",
   });
   Router.push("/");
+}
+
+async function deleteComment(id: string, postId: string): Promise<void> {
+  await fetch(`/api/comment/${id}`, {
+    method: "DELETE",
+  });
+  Router.push(`/p/${postId}`);
 }
 
 const Post: React.FC<PostProps> = (props) => {
@@ -146,6 +159,15 @@ const Post: React.FC<PostProps> = (props) => {
             <Comment>
               <FittedParagraph>{comment.content}</FittedParagraph>
               <small>by {comment.author.name}</small>
+              <br />
+              {userHasValidSession &&
+                session?.user?.email === comment.author?.email && (
+                  <SmallButton
+                    onClick={() => deleteComment(comment.id, props.id)}
+                  >
+                    Delete comment
+                  </SmallButton>
+                )}
             </Comment>
           </CommentWrapper>
         ))}
