@@ -40,7 +40,7 @@ const FlexSection = styled.section`
 
 const CommentWrapper = styled.section`
   display: flex;
-  margin: 12px 0;
+  margin: 20px 0;
 `;
 
 const PostHeading = styled.h2`

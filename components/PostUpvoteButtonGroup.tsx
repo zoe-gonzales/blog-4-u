@@ -17,6 +17,7 @@ const FlexItem = styled.p`
   font-size: 20px;
   flex-basis: 0;
   text-align: center;
+  margin: 5px 0;
 `;
 
 type ClickType = "increment" | "decrement";
