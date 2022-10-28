@@ -21,8 +21,11 @@ const FlexItem = styled.p`
 
 type ClickType = "increment" | "decrement";
 
-const handleClick = async (postId: string, type: ClickType): Promise<any> => {
-  return await fetch(`/api/post/${postId}?type=${type}`, {
+const handleClick = async (
+  commentId: string,
+  type: ClickType
+): Promise<any> => {
+  return await fetch(`/api/comment/${commentId}?type=${type}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
   })
@@ -31,14 +34,14 @@ const handleClick = async (postId: string, type: ClickType): Promise<any> => {
 };
 
 const UpvoteButtonGroup = (props) => {
-  const { postId, upvoteCount } = props;
+  const { commentId, upvoteCount } = props;
   const [count, setCount] = useState(upvoteCount);
   const incrementCount = async () => {
-    const post = await handleClick(postId, "increment");
+    const post = await handleClick(commentId, "increment");
     setCount(post.upvoteCount);
   };
   const decrementCount = async () => {
-    const post = await handleClick(postId, "decrement");
+    const post = await handleClick(commentId, "decrement");
     setCount(post.upvoteCount);
   };
 

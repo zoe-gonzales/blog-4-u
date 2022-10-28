@@ -7,13 +7,15 @@ import { PostProps } from "../../components/Post";
 import { useSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
 import styled from "styled-components";
-import { buttonStyles, accentColorTwo } from "../../components/styled";
+import { buttonStyles } from "../../components/styled";
 import { UpvoteButtonGroup as PostUpvoteButtonGroup } from "../../components/PostUpvoteButtonGroup";
+import { UpvoteButtonGroup as CommentUpvoteButtonGroup } from "../../components/CommentUpvoteButtonGroup";
 
 const Comment = styled.article`
-  border: 6px solid ${accentColorTwo};
-  padding: 15px 20px;
-  margin: 20px;
+  background: rgba(144, 173, 198, 0.5);
+  padding: 10px;
+  flex-shrink: 0;
+  flex-grow: 1;
 `;
 
 const Button = styled.button`
@@ -36,7 +38,16 @@ const FlexSection = styled.section`
   display: flex;
 `;
 
+const CommentWrapper = styled.section`
+  display: flex;
+  margin: 12px 0;
+`;
+
 const PostHeading = styled.h2`
+  margin: 0;
+`;
+
+const FittedParagraph = styled.p`
   margin: 0;
 `;
 
@@ -50,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         select: { name: true, email: true },
       },
       comments: {
-        select: { id: true, content: true, author: true },
+        select: { id: true, content: true, author: true, upvoteCount: true },
       },
     },
   });
@@ -103,7 +114,7 @@ const Post: React.FC<PostProps> = (props) => {
       console.error(error);
     }
   };
-
+  console.log(props.comments);
   return (
     <Layout>
       <FlexSection>
@@ -127,10 +138,16 @@ const Post: React.FC<PostProps> = (props) => {
         <hr />
         <h2>Comments</h2>
         {props.comments.map((comment: any) => (
-          <Comment key={comment.id}>
-            <p>{comment.content}</p>
-            <small>by {comment.author.name}</small>
-          </Comment>
+          <CommentWrapper key={comment.id}>
+            <CommentUpvoteButtonGroup
+              commentId={comment.id}
+              upvoteCount={comment.upvoteCount}
+            />
+            <Comment>
+              <FittedParagraph>{comment.content}</FittedParagraph>
+              <small>by {comment.author.name}</small>
+            </Comment>
+          </CommentWrapper>
         ))}
       </section>
       <form onSubmit={submitData}>
