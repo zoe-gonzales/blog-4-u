@@ -40,12 +40,6 @@ const RightNav = styled.div`
     padding: 0.5rem 1rem;
     border-radius: 3px;
   }
-
-  button {
-    ${buttonStyles}
-    border: none;
-    margin: 0 5px;
-  }
 `;
 
 const LeftNav = styled.div`
@@ -53,6 +47,13 @@ const LeftNav = styled.div`
     color: ${textColor};
     font-weight: 800;
   }
+`;
+
+const LeftNavButton = styled.button`
+  ${buttonStyles}
+  border: none;
+  margin: 0 5px;
+  padding: 5px 10px;
 `;
 
 const Header: React.FC = () => {
@@ -126,13 +127,13 @@ const Header: React.FC = () => {
           {session.user.name} ({session.user.email})
         </UserDetails>
         <Link href="/create">
-          <button>
+          <LeftNavButton>
             <StyledLink>New post</StyledLink>
-          </button>
+          </LeftNavButton>
         </Link>
-        <button onClick={() => signOut()}>
+        <LeftNavButton onClick={() => signOut()}>
           <StyledLink>Log out</StyledLink>
-        </button>
+        </LeftNavButton>
       </RightNav>
     );
   }
