@@ -13,6 +13,7 @@ export type PostProps = {
   content: string;
   published: boolean;
   comments: any[];
+  upvoteCount: number;
 };
 
 const PostWrapper = styled.article`

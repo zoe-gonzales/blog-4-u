@@ -48,7 +48,10 @@ const Blog: React.FC<Props> = (props) => {
         <main>
           {props.feed.map((post) => (
             <FlexSection key={post.id}>
-              <UpvoteButtonGroup postId={post.id} />
+              <UpvoteButtonGroup
+                postId={post.id}
+                upvoteCount={post.upvoteCount}
+              />
               <PostWrapper>
                 <Post post={post} />
               </PostWrapper>

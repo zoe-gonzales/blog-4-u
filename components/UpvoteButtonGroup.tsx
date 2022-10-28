@@ -1,5 +1,4 @@
-import React from "react";
-import Router from "next/router";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const UpvoteButton = styled.button`
@@ -20,29 +19,33 @@ const FlexItem = styled.p`
   text-align: center;
 `;
 
-async function createUpvote(postId: any, commentId): Promise<void> {
-  const body = { postId, commentId };
-  await fetch(`/api/upvote`, {
-    method: "POST",
-    body: JSON.stringify(body),
-  });
-}
+type ClickType = "increment" | "decrement";
 
-async function destroyUpvote(id: string): Promise<void> {
-  await fetch(`/api/upvote/${id}`, {
-    method: "DESTROY",
+const handleClick = async (postId: string, type: ClickType): Promise<any> => {
+  const res = await fetch(`/api/post/${postId}?type=${type}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
   });
-}
+  return res;
+};
 
 const UpvoteButtonGroup = (props) => {
-  const { postId, commentId = null } = props;
+  const { postId, upvoteCount } = props;
+  const [count, setCount] = useState(upvoteCount);
+  const incrementCount = async () => {
+    const post = await handleClick(postId, "increment");
+    // setCount(post.upvoteCount);
+  };
+  const decrementCount = async () => {
+    const post = await handleClick(postId, "decrement");
+    // setCount(post.upvoteCount);
+  };
+
   return (
     <FlexSection>
-      <UpvoteButton onClick={() => createUpvote(postId, commentId)}>
-        ⬆️
-      </UpvoteButton>
-      <UpvoteButton destroyUpvote={destroyUpvote}>⬇️</UpvoteButton>
-      <FlexItem>0</FlexItem>
+      <UpvoteButton onClick={incrementCount}>⬆️</UpvoteButton>
+      <UpvoteButton onClick={decrementCount}>⬇️</UpvoteButton>
+      <FlexItem>{count}</FlexItem>
     </FlexSection>
   );
 };
