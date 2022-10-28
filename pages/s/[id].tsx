@@ -6,9 +6,16 @@ import prisma from "../../lib/prisma";
 import Layout from "../../components/Layout";
 import styled from "styled-components";
 import { postStyles } from "../../components/styled";
+import { UpvoteButtonGroup } from "../../components/PostUpvoteButtonGroup";
 
 const PostWrapper = styled.article`
   ${postStyles}
+  flex-shrink: 0;
+  flex-grow: 1;
+`;
+
+const FlexSection = styled.section`
+  display: flex;
 `;
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -51,9 +58,15 @@ const Space = (props) => {
         <div>Nothing to see here...yet</div>
       ) : (
         props.posts.map((post) => (
-          <PostWrapper key={post.id}>
-            <Post post={post} />
-          </PostWrapper>
+          <FlexSection key={post.id}>
+            <UpvoteButtonGroup
+              postId={post.id}
+              upvoteCount={post.upvoteCount}
+            />
+            <PostWrapper>
+              <Post post={post} />
+            </PostWrapper>
+          </FlexSection>
         ))
       )}
     </Layout>

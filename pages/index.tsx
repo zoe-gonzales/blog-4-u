@@ -5,7 +5,7 @@ import Post, { PostProps } from "../components/Post";
 import prisma from "../lib/prisma";
 import styled from "styled-components";
 import { pageStyles, postStyles } from "../components/styled";
-import { UpvoteButtonGroup } from "../components/UpvoteButtonGroup";
+import { UpvoteButtonGroup } from "../components/PostUpvoteButtonGroup";
 
 const PostWrapper = styled.article`
   ${postStyles}

@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
 import styled from "styled-components";
 import { buttonStyles, accentColorTwo } from "../../components/styled";
+import { UpvoteButtonGroup as PostUpvoteButtonGroup } from "../../components/PostUpvoteButtonGroup";
 
 const Comment = styled.article`
   border: 6px solid ${accentColorTwo};
@@ -23,6 +24,20 @@ const Button = styled.button`
 const SubmitButton = styled.input`
   ${buttonStyles}
   margin-top: 8px;
+`;
+
+const PostWrapper = styled.article`
+  flex-shrink: 0;
+  flex-grow: 1;
+  margin: 0 0 20px 20px;
+`;
+
+const FlexSection = styled.section`
+  display: flex;
+`;
+
+const PostHeading = styled.h2`
+  margin: 0;
 `;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -91,17 +106,23 @@ const Post: React.FC<PostProps> = (props) => {
 
   return (
     <Layout>
-      <section>
-        <h2>{title}</h2>
-        <p>By {props?.author?.name || "Unknown author"}</p>
-        <ReactMarkdown children={props.content} />
-        {!props.published && userHasValidSession && postBelongsToUser && (
-          <Button onClick={() => publishPost(props.id)}>Publish</Button>
-        )}
-        {userHasValidSession && postBelongsToUser && (
-          <Button onClick={() => deletePost(props.id)}>Delete</Button>
-        )}
-      </section>
+      <FlexSection>
+        <PostUpvoteButtonGroup
+          postId={props.id}
+          upvoteCount={props.upvoteCount}
+        />
+        <PostWrapper>
+          <PostHeading>{title}</PostHeading>
+          <p>By {props?.author?.name || "Unknown author"}</p>
+          <ReactMarkdown children={props.content} />
+          {!props.published && userHasValidSession && postBelongsToUser && (
+            <Button onClick={() => publishPost(props.id)}>Publish</Button>
+          )}
+          {userHasValidSession && postBelongsToUser && (
+            <Button onClick={() => deletePost(props.id)}>Delete</Button>
+          )}
+        </PostWrapper>
+      </FlexSection>
       <section>
         <hr />
         <h2>Comments</h2>
