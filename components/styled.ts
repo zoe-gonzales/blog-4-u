@@ -44,6 +44,10 @@ const postStyles = css`
     background: ${textColor};
     color: ${backgroundColor};
     box-shadow: 1px 1px 3px #aaa;
+
+    * > a {
+      color: ${backgroundColor};
+    }
   }
 
   & + & {

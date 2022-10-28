@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import styled from "styled-components";
-import { linkStyles, textColor } from "./styled";
+import { buttonStyles, linkStyles, textColor } from "./styled";
 
 const Nav = styled.nav`
   display: flex;
@@ -42,7 +42,9 @@ const RightNav = styled.div`
   }
 
   button {
+    ${buttonStyles}
     border: none;
+    margin: 0 5px;
   }
 `;
 

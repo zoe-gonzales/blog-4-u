@@ -114,7 +114,7 @@ const Post: React.FC<PostProps> = (props) => {
       console.error(error);
     }
   };
-  console.log(props.comments);
+
   return (
     <Layout>
       <FlexSection>

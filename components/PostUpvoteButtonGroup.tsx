@@ -45,8 +45,8 @@ const UpvoteButtonGroup = (props) => {
   return (
     <FlexSection>
       <UpvoteButton onClick={incrementCount}>⬆️</UpvoteButton>
-      <UpvoteButton onClick={decrementCount}>⬇️</UpvoteButton>
       <FlexItem>{count}</FlexItem>
+      <UpvoteButton onClick={decrementCount}>⬇️</UpvoteButton>
     </FlexSection>
   );
 };
